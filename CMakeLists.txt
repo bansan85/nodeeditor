@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
 
-cmake_policy(SET CMP0072 NEW) # new in 3.11. The NEW behavior for this policy is to set OpenGL_GL_PREFERENCE to GLVND.
-cmake_policy(SET CMP0068 NEW) # new in 3.9. The NEW behavior of this policy is to ignore the RPATH settings for install_name on macOS.
-
-
 project(QtNodesLibrary CXX)
 
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
+set(CMAKE_CXX_STANDARD 11)
 
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
@@ -187,12 +185,6 @@ if(NOT "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC")
       $<$<CXX_COMPILER_ID:Clang>:-Wall -Wextra>
   )
 endif()
-
-if(QT_NODES_DEVELOPER_DEFAULTS)
-  target_compile_features(QtNodes PUBLIC cxx_std_14)
-  set_target_properties(QtNodes PROPERTIES CXX_EXTENSIONS OFF)
-endif()
-
 
 set_target_properties(QtNodes
   PROPERTIES
