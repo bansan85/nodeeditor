@@ -10,6 +10,7 @@ set(CALC_HEADER_FILES
   DivisionModel.hpp
   DecimalData.hpp
   MathOperationDataModel.hpp
+  MultiplicationModel.hpp
   NumberDisplayDataModel.hpp
   NumberSourceDataModel.hpp
   SubtractionModel.hpp
