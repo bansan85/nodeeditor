@@ -147,7 +147,7 @@ QMenu *DataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
 bool DataFlowGraphicsScene::save() const
 {
     QString fileName = QFileDialog::getSaveFileName(nullptr,
-                                                    tr("Open Flow Scene"),
+                                                    tr("Save Flow Scene"),
                                                     QDir::homePath(),
                                                     tr("Flow Scene Files (*.flow)"));
 
