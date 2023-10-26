@@ -29,12 +29,12 @@ add_executable(calculator_tbb
 target_link_libraries(calculator_tbb QtNodes TBB::tbb)
 target_compile_definitions(calculator_tbb PRIVATE QT_NO_KEYWORDS)
 
-add_definitions(/MP)
-
-add_custom_command(
-  TARGET calculator_tbb
-  POST_BUILD
-  COMMAND
-    ${CMAKE_COMMAND} -E env VCINSTALLDIR=${CMAKE_GENERATOR_INSTANCE}/VC
-    ${WINDEPLOYQT_EXECUTABLE} --pdb
-    "$<TARGET_FILE:calculator_tbb>")
+if(WIN32)
+  add_custom_command(
+    TARGET calculator_tbb
+    POST_BUILD
+    COMMAND
+      ${CMAKE_COMMAND} -E env VCINSTALLDIR=${CMAKE_GENERATOR_INSTANCE}/VC
+      ${WINDEPLOYQT_EXECUTABLE} --pdb
+      "$<TARGET_FILE:calculator_tbb>")
+endif()
