@@ -2,7 +2,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 stages:
-#  - build
+  - build
   - format
 #  - test
 #  - install
@@ -96,20 +96,20 @@ format:cmake-format:
 #    paths:
 #      - CI
 #    expire_in: 1 day
-#
-#build:ubuntu-static:
-#  stage: build
-#  tags:
-#    - ubuntu
-#    - build
-#  script:
-#    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DEigen3_DIR:PATH=${Eigen3_DIR_GCC_64_STATIC_RELEASE} -DCatch2_DIR:PATH=${Catch2_DIR_GCC_64_STATIC_RELEASE} -DWITH_SAMPLES=ON -DWITH_CUDA=ON -DWITH_TEST=ON
-#    - cmake --build CI --config Release --parallel $NUM_PARALLEL
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
-#    
+
+build:ubuntu-static:
+  stage: build
+  tags:
+    - ubuntu
+    - build
+  script:
+    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE=${VCPKG_TOOLCHAIN}
+    - cmake --build CI --config Release --parallel $NUM_PARALLEL
+  artifacts:
+    paths:
+      - CI
+    expire_in: 1 day
+
 #build:ubuntu-shared:
 #  stage: build
 #  tags:
