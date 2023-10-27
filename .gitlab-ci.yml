@@ -62,47 +62,31 @@ format:iwyu:
       - CI/iwyu_tool.log
     expire_in: 1 day
 
-#build:windows-python:
-#  stage: build
-#  tags:
-#    - win10
-#    - python 
-#  script:
-#    - pew in CI python -m build .
-#
-#build:ubuntu-python:
-#  stage: build
-#  tags:
-#    - ubuntu
-#    - python 
-#  script:
-#    - pew in CI python -m build .
-#
-#build:windows-static:
-#  stage: build
-#  tags:
-#    - win10
-#    - build
-#  script:
-#    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DEigen3_DIR:PATH=${Eigen3_DIR_2022_64_STATIC_RELEASE} -DCatch2_DIR:PATH=${Catch2_DIR_2022_64_STATIC_RELEASE} -DWITH_SAMPLES=ON -DWITH_CUDA=ON -DWITH_TEST=ON
-#    - cmake.exe --build CI --config Release -- /p:CL_MPcount=$NUM_PARALLEL
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
-#
-#build:windows-shared:
-#  stage: build
-#  tags:
-#    - win10
-#    - build
-#  script:
-#    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DEigen3_DIR:PATH=${Eigen3_DIR_2022_64_SHARED_RELEASE} -DCatch2_DIR:PATH=${Catch2_DIR_2022_64_SHARED_RELEASE} -DWITH_SAMPLES=ON -DWITH_CUDA=ON -DWITH_TEST=ON
-#    - cmake.exe --build CI --config Release -- /p:CL_MPcount=$NUM_PARALLEL
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
+build:windows-static:
+  stage: build
+  tags:
+    - win10
+    - build
+  script:
+    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE=${VCPKG_TOOLCHAIN}
+    - cmake.exe --build CI --config Release -- /p:CL_MPcount=$NUM_PARALLEL
+  artifacts:
+    paths:
+      - CI
+    expire_in: 1 day
+
+build:windows-shared:
+  stage: build
+  tags:
+    - win10
+    - build
+  script:
+    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE=${VCPKG_TOOLCHAIN}
+    - cmake.exe --build CI --config Release -- /p:CL_MPcount=$NUM_PARALLEL
+  artifacts:
+    paths:
+      - CI
+    expire_in: 1 day
 
 build:ubuntu-static:
   stage: build
@@ -117,49 +101,19 @@ build:ubuntu-static:
       - CI
     expire_in: 1 day
 
-#build:ubuntu-shared:
-#  stage: build
-#  tags:
-#    - ubuntu
-#    - build
-#  script:
-#    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DEigen3_DIR:PATH=${Eigen3_DIR_GCC_64_SHARED_RELEASE} -DCatch2_DIR:PATH=${Catch2_DIR_GCC_64_SHARED_RELEASE} -DWITH_SAMPLES=ON -DWITH_CUDA=ON -DWITH_TEST=ON
-#    - cmake --build CI --config Release --parallel $NUM_PARALLEL
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
-#
-#build:android-ubuntu-static:
-#  stage: build
-#  tags:
-#    - android
-#    - ubuntu
-#    - build
-#  script:
-#    - export ANDROID_NDK_PATH="$ALL_NDK_PATH"/21.4.7075529
-#    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=28 -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a -DCMAKE_ANDROID_NDK="$ANDROID_NDK_PATH" -DCMAKE_ANDROID_STL_TYPE=c++_static -DCMAKE_INSTALL_PREFIX="$ANDROID_INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DOpenCL_LIBRARY=$DIR_ARM_V8A_64_STATIC_RELEASE/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR:PATH=$DIR_ARM_V8A_64_STATIC_RELEASE/include -DWITH_TEST:BOOL=OFF -DWITH_SAMPLES:BOOL=OFF
-#    - cmake --build CI --config Release --parallel $NUM_PARALLEL
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
-#
-#build:android-ubuntu-shared:
-#  stage: build
-#  tags:
-#    - android
-#    - ubuntu
-#    - build
-#  script:
-#    - export ANDROID_NDK_PATH="$ALL_NDK_PATH"/21.4.7075529
-#    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=28 -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a -DCMAKE_ANDROID_NDK="$ANDROID_NDK_PATH" -DCMAKE_ANDROID_STL_TYPE=c++_static -DCMAKE_INSTALL_PREFIX="$ANDROID_INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DOpenCL_LIBRARY=$DIR_ARM_V8A_64_SHARED_RELEASE/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR:PATH=$DIR_ARM_V8A_64_SHARED_RELEASE/include -DWITH_TEST:BOOL=OFF -DWITH_SAMPLES:BOOL=OFF
-#    - cmake --build CI --config Release --parallel $NUM_PARALLEL
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
-#
+build:ubuntu-shared:
+  stage: build
+  tags:
+    - ubuntu
+    - build
+  script:
+    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE=${VCPKG_TOOLCHAIN}
+    - cmake --build CI --config Release --parallel $NUM_PARALLEL
+  artifacts:
+    paths:
+      - CI
+    expire_in: 1 day
+
 #test:windows-static:
 #  stage: test
 #  dependencies:
