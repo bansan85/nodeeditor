@@ -50,10 +50,9 @@ public:
     ~PortAddRemoveWidget();
 
     /**
-   * Called from constructor, creates all button groups according to models'port
-   * counts.
+   * Creates all button groups according to models'port counts.
    */
-    void populateButtons(PortType portType, unsigned int nPorts);
+    void populateButtons(PortType portType, int nPorts);
 
     /**
    * Adds a single `[+][-]` button group to a given layout.

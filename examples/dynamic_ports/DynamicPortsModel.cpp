@@ -190,12 +190,12 @@ bool DynamicPortsModel::setNodeData(NodeId nodeId, NodeRole role, QVariant value
 
     case NodeRole::InPortCount:
         _nodePortCounts[nodeId].in = value.toUInt();
-        widget(nodeId)->populateButtons(PortType::In, value.toUInt());
+        widget(nodeId)->populateButtons(PortType::In, value.toInt());
         break;
 
     case NodeRole::OutPortCount:
         _nodePortCounts[nodeId].out = value.toUInt();
-        widget(nodeId)->populateButtons(PortType::Out, value.toUInt());
+        widget(nodeId)->populateButtons(PortType::Out, value.toInt());
         break;
 
     case NodeRole::Widget:
