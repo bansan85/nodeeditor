@@ -1,0 +1,327 @@
+{
+    "connections": [
+        {
+            "inPortIndex": 0,
+            "intNodeId": 6,
+            "outNodeId": 1,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 5,
+            "outNodeId": 0,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 7,
+            "outNodeId": 0,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 1,
+            "intNodeId": 8,
+            "outNodeId": 2,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 8,
+            "outNodeId": 1,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 1,
+            "intNodeId": 7,
+            "outNodeId": 4,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 1,
+            "intNodeId": 9,
+            "outNodeId": 6,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 1,
+            "intNodeId": 5,
+            "outNodeId": 3,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 9,
+            "outNodeId": 5,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 1,
+            "intNodeId": 6,
+            "outNodeId": 2,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 15,
+            "outNodeId": 5,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 10,
+            "outNodeId": 5,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 11,
+            "outNodeId": 7,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 1,
+            "intNodeId": 10,
+            "outNodeId": 8,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 1,
+            "intNodeId": 11,
+            "outNodeId": 8,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 16,
+            "outNodeId": 7,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 18,
+            "outNodeId": 8,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 12,
+            "outNodeId": 9,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 13,
+            "outNodeId": 10,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 14,
+            "outNodeId": 11,
+            "outPortIndex": 0
+        },
+        {
+            "inPortIndex": 0,
+            "intNodeId": 17,
+            "outNodeId": 6,
+            "outPortIndex": 0
+        }
+    ],
+    "nodes": [
+        {
+            "id": 0,
+            "internal-data": {
+                "model-name": "NumberSource",
+                "number": "1"
+            },
+            "position": {
+                "x": -224,
+                "y": -106
+            }
+        },
+        {
+            "id": 1,
+            "internal-data": {
+                "model-name": "NumberSource",
+                "number": "2"
+            },
+            "position": {
+                "x": -218,
+                "y": -30
+            }
+        },
+        {
+            "id": 2,
+            "internal-data": {
+                "model-name": "NumberSource",
+                "number": "3"
+            },
+            "position": {
+                "x": -214,
+                "y": 53
+            }
+        },
+        {
+            "id": 3,
+            "internal-data": {
+                "model-name": "NumberSource",
+                "number": "4"
+            },
+            "position": {
+                "x": -223,
+                "y": 120
+            }
+        },
+        {
+            "id": 4,
+            "internal-data": {
+                "model-name": "NumberSource",
+                "number": "5"
+            },
+            "position": {
+                "x": -224,
+                "y": 203
+            }
+        },
+        {
+            "id": 5,
+            "internal-data": {
+                "model-name": "Subtraction"
+            },
+            "position": {
+                "x": 131,
+                "y": -212
+            }
+        },
+        {
+            "id": 6,
+            "internal-data": {
+                "model-name": "Addition"
+            },
+            "position": {
+                "x": 120,
+                "y": -42
+            }
+        },
+        {
+            "id": 7,
+            "internal-data": {
+                "model-name": "Multiplication"
+            },
+            "position": {
+                "x": 156,
+                "y": 90
+            }
+        },
+        {
+            "id": 8,
+            "internal-data": {
+                "model-name": "Division"
+            },
+            "position": {
+                "x": 156,
+                "y": 240
+            }
+        },
+        {
+            "id": 9,
+            "internal-data": {
+                "model-name": "Addition"
+            },
+            "position": {
+                "x": 369,
+                "y": -64
+            }
+        },
+        {
+            "id": 10,
+            "internal-data": {
+                "model-name": "Division"
+            },
+            "position": {
+                "x": 400.8241171790172,
+                "y": 98.91995815035105
+            }
+        },
+        {
+            "id": 11,
+            "internal-data": {
+                "model-name": "Addition"
+            },
+            "position": {
+                "x": 417,
+                "y": 229
+            }
+        },
+        {
+            "id": 12,
+            "internal-data": {
+                "model-name": "Result"
+            },
+            "position": {
+                "x": 620,
+                "y": -19
+            }
+        },
+        {
+            "id": 13,
+            "internal-data": {
+                "model-name": "Result"
+            },
+            "position": {
+                "x": 630,
+                "y": 120
+            }
+        },
+        {
+            "id": 14,
+            "internal-data": {
+                "model-name": "Result"
+            },
+            "position": {
+                "x": 633,
+                "y": 268
+            }
+        },
+        {
+            "id": 15,
+            "internal-data": {
+                "model-name": "Result"
+            },
+            "position": {
+                "x": 451.6788413098237,
+                "y": -317.4231738035264
+            }
+        },
+        {
+            "id": 16,
+            "internal-data": {
+                "model-name": "Result"
+            },
+            "position": {
+                "x": 403.7884130982368,
+                "y": 336.1977329974811
+            }
+        },
+        {
+            "id": 17,
+            "internal-data": {
+                "model-name": "Result"
+            },
+            "position": {
+                "x": 445.9130982367759,
+                "y": -221.360201511335
+            }
+        },
+        {
+            "id": 18,
+            "internal-data": {
+                "model-name": "Result"
+            },
+            "position": {
+                "x": 398.022670025189,
+                "y": 429.9496221662469
+            }
+        }
+    ]
+}
