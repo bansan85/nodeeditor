@@ -485,6 +485,7 @@ void DataFlowGraphModel::loadNode(QJsonObject const &nodeJson)
                     onOutPortDataUpdated(restoredNodeId, portIndex);
                 });
 
+        model->load(internalDataJson);
         _models[restoredNodeId] = std::move(model);
 
         Q_EMIT nodeCreated(restoredNodeId);
@@ -493,8 +494,6 @@ void DataFlowGraphModel::loadNode(QJsonObject const &nodeJson)
         QPointF const pos(posJson["x"].toDouble(), posJson["y"].toDouble());
 
         setNodeData(restoredNodeId, NodeRole::Position, pos);
-
-        _models[restoredNodeId]->load(internalDataJson);
     } else {
         throw std::logic_error(std::string("No registered model with name ")
                                + delegateModelName.toLocal8Bit().data());

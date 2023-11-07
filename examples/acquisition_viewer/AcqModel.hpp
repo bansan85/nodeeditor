@@ -45,6 +45,10 @@ public:
         return ConnectionPolicy::Many;
     }
 
+    QJsonObject save() const override;
+
+    void load(QJsonObject const &) override;
+
 private:
     std::shared_ptr<AcqData> _result;
     QString _title;

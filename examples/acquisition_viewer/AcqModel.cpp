@@ -47,12 +47,18 @@ QWidget *AcqModel::embeddedWidget()
 
     _result = std::make_shared<AcqData>();
 
-    bool ok;
+    if (_title.isEmpty()) {
+        bool ok;
 
-    QString text
-        = QInputDialog::getText(nullptr, "Acquisition node", "Title:", QLineEdit::Normal, "", &ok);
-    if (ok && !text.isEmpty())
-        _title = text;
+        QString text = QInputDialog::getText(nullptr,
+                                             "Acquisition node",
+                                             "Title:",
+                                             QLineEdit::Normal,
+                                             "",
+                                             &ok);
+        if (ok && !text.isEmpty())
+            _title = text;
+    }
 
     NodeStyle style;
     style.GradientColor0 = {rand() % 256, rand() % 256, rand() % 256};
@@ -62,4 +68,17 @@ QWidget *AcqModel::embeddedWidget()
     setNodeStyle(style);
 
     return nullptr;
+}
+
+QJsonObject AcqModel::save() const
+{
+    QJsonObject retval = NodeDelegateModel::save();
+    retval["Title"] = _title;
+    return retval;
+}
+
+void AcqModel::load(QJsonObject const &object)
+{
+    NodeDelegateModel::load(object);
+    _title = object["Title"].toString();
 }
