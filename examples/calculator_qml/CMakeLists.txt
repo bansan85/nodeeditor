@@ -32,3 +32,13 @@ qt_add_qml_module(
 )
 
 target_link_libraries(calculator_qml PRIVATE Qt6::Gui Qt6::Quick QtNodes)
+
+if(WIN32)
+  add_custom_command(
+    TARGET calculator_qml
+    POST_BUILD
+    COMMAND
+      ${CMAKE_COMMAND} -E env VCINSTALLDIR=${CMAKE_GENERATOR_INSTANCE}/VC
+      ${WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_CURRENT_SOURCE_DIR} --pdb
+      "$<TARGET_FILE:calculator_qml>")
+endif()

@@ -6,3 +6,11 @@ add_executable(acquisition_viewer ${ACQ_SOURCE_FILES} ${ACQ_HEADER_FILES}
                                   CMakeLists.txt)
 
 target_link_libraries(acquisition_viewer QtNodes)
+
+if(WIN32)
+  add_custom_command(
+    TARGET acquisition_viewer
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E env VCINSTALLDIR=${CMAKE_GENERATOR_INSTANCE}/VC
+            ${WINDEPLOYQT_EXECUTABLE} --pdb "$<TARGET_FILE:acquisition_viewer>")
+endif()

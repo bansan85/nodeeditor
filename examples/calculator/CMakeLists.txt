@@ -38,3 +38,17 @@ add_executable(headless_calculator
 )
 
 target_link_libraries(headless_calculator QtNodes)
+
+if(WIN32)
+  add_custom_command(
+    TARGET calculator
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E env VCINSTALLDIR=${CMAKE_GENERATOR_INSTANCE}/VC
+            ${WINDEPLOYQT_EXECUTABLE} --pdb "$<TARGET_FILE:calculator>")
+  add_custom_command(
+    TARGET headless_calculator
+    POST_BUILD
+    COMMAND
+      ${CMAKE_COMMAND} -E env VCINSTALLDIR=${CMAKE_GENERATOR_INSTANCE}/VC
+      ${WINDEPLOYQT_EXECUTABLE} --pdb "$<TARGET_FILE:headless_calculator>")
+endif()

@@ -47,3 +47,11 @@ add_executable(compute_viewer ${COMPUTE_SOURCE_FILES} ${COMPUTE_HEADER_FILES}
                               CMakeLists.txt)
 
 target_link_libraries(compute_viewer QtNodes)
+
+if(WIN32)
+  add_custom_command(
+    TARGET compute_viewer
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E env VCINSTALLDIR=${CMAKE_GENERATOR_INSTANCE}/VC
+            ${WINDEPLOYQT_EXECUTABLE} --pdb "$<TARGET_FILE:calculator_qml>")
+endif()

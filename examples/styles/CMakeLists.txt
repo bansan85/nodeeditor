@@ -4,3 +4,11 @@ file(GLOB_RECURSE HPPS  ./*.hpp )
 add_executable(styles ${CPPS} ${HPPS})
 
 target_link_libraries(styles QtNodes)
+
+if(WIN32)
+  add_custom_command(
+    TARGET styles
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E env VCINSTALLDIR=${CMAKE_GENERATOR_INSTANCE}/VC
+            ${WINDEPLOYQT_EXECUTABLE} --pdb "$<TARGET_FILE:styles>")
+endif()
