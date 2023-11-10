@@ -162,6 +162,12 @@ void GraphicsView::centerScene()
 
 bool GraphicsView::handleMouseEvent(QMouseEvent *event)
 {
+    if (event->type() == QEvent::MouseButtonPress) {
+        mousePressEvent(event);
+    } else if (event->type() == QEvent::MouseMove) {
+        mouseMoveEvent(event);
+    }
+
     QPoint pos = event->pos();
 
     QWidget *child = childAt(pos);
@@ -256,6 +262,10 @@ bool GraphicsView::handleEvent(QEvent *e)
 {
     if (QMouseEvent *me = dynamic_cast<QMouseEvent *>(e)) {
         return handleMouseEvent(me);
+    }
+    if (QWheelEvent *we = dynamic_cast<QWheelEvent *>(e)) {
+        wheelEvent(we);
+        return true;
     }
 
     return QWidget::event(e);
