@@ -15,6 +15,7 @@
 
 class DecimalData;
 
+using oneapi::tbb::flow::input_port;
 using oneapi::tbb::flow::join_node;
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;

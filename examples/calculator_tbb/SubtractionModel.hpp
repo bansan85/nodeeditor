@@ -10,6 +10,7 @@
 #include <QtWidgets/QLabel>
 
 using oneapi::tbb::flow::function_node;
+using oneapi::tbb::flow::input_port;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
