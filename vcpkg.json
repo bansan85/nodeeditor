@@ -1,0 +1,11 @@
+{
+  "dependencies": [
+    "qtdeclarative",
+    "qtbase",
+    "qtcharts",
+    "qtlanguageserver",
+    "qttranslations",
+    "catch2",
+    "tbb"
+  ]
+}

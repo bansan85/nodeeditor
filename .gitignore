@@ -3,8 +3,11 @@ CMakeLists.txt.user
 
 build*/
 .vscode/
+install*/
 
 tags
 
 vcpkg_installed/
 /CI/
+
+vcpkg/
