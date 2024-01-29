@@ -74,7 +74,6 @@ build:windows-static:
     - $vcpkg_tag = (Get-Content d:/vcpkg\scripts\vcpkg-tool-metadata.txt) | Select-String -Pattern '^VCPKG_TOOL_RELEASE_TAG=(.*)'  | %{$_.Matches.Groups[1].value}
     - $url="https://github.com/microsoft/vcpkg-tool/releases/download/$vcpkg_tag/vcpkg.exe"
     - $destination="$Env:VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag.exe"
-    - $destination
     - if(-not(Test-Path $destination)){Invoke-WebRequest -Uri $url -OutFile $destination}
     - Copy-Item $destination d:/vcpkg/vcpkg.exe
     - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE="d:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md -DVCPKG_HOST_TRIPLET=x64-windows-static-md -DVCPKG_INSTALLED_DIR=d:/vcpkg_installed
@@ -92,7 +91,6 @@ build:windows-shared:
     - $vcpkg_tag = (Get-Content d:/vcpkg\scripts\vcpkg-tool-metadata.txt) | Select-String -Pattern '^VCPKG_TOOL_RELEASE_TAG=(.*)'  | %{$_.Matches.Groups[1].value}
     - $url="https://github.com/microsoft/vcpkg-tool/releases/download/$vcpkg_tag/vcpkg.exe"
     - $destination="$Env:VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag.exe"
-    - $destination
     - if(-not(Test-Path $destination)){Invoke-WebRequest -Uri $url -OutFile $destination}
     - Copy-Item $destination d:/vcpkg/vcpkg.exe
     - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="d:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_HOST_TRIPLET=x64-windows -DVCPKG_INSTALLED_DIR=d:/vcpkg_installed
