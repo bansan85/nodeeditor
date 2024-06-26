@@ -68,7 +68,7 @@ public:
     virtual std::shared_ptr<NodeData> outData(PortIndex const port) = 0;
 
     /**
-   * It is recommented to preform a lazy initialization for the
+   * It is recommended to perform a lazy initialization for the
    * embedded widget and create it inside this function, not in the
    * constructor of the current model.
    *
@@ -112,7 +112,7 @@ Q_SIGNALS:
    */
     void portsAboutToBeDeleted(PortType const portType, PortIndex const first, PortIndex const last);
 
-    /// Call this function when data and port moditications are finished.
+    /// Call this function when data and port modifications are finished.
     void portsDeleted();
 
     /// Call this function before inserting the data associated with ports.
@@ -124,7 +124,7 @@ Q_SIGNALS:
                                 PortIndex const first,
                                 PortIndex const last);
 
-    /// Call this function when data and port moditications are finished.
+    /// Call this function when data and port modifications are finished.
     void portsInserted();
 
 private:
