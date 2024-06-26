@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
                     }
                     // Dependency on an input port. Don't insert it if other node has not been inserted.
                     else if (j.inNodeId == node
-                             && nodesRemaining.find(j.outNodeId) != nodesRemaining.end()) {
+                             && nodesRemaining.find(j.outNodeId) == nodesRemaining.end()) {
                         continue;
                     }
                     skip = true;
