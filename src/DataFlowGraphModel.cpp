@@ -372,6 +372,7 @@ bool DataFlowGraphModel::setPortData(
 
             // Triggers repainting on the scene.
             Q_EMIT inPortDataWasSet(nodeId, portType, portIndex);
+            return true;
         }
         break;
 
