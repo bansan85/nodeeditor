@@ -3,6 +3,7 @@ variables:
 
 .before-script-vcpkg-windows: &before-script-vcpkg-windows
   - Push-Location
+  - git submodule update --init vcpkg-registry
   - if (-not (Test-Path -Path "$Env:VCPKG_LOCAL_GIT")) { git clone https://git.moduleus.com/common/sw/3rdparty/vcpkg.git $Env:VCPKG_LOCAL_GIT }
   - $baseline=Select-String -Path "vcpkg-configuration.json" -Pattern '"baseline":\s"(.+?)"' | ForEach-Object { $_.Matches.Groups[1].Value }
   - cd "$Env:VCPKG_LOCAL_GIT"
@@ -17,6 +18,7 @@ variables:
   - $Env:LOCALAPPDATA = $Env:GITLAB_LOCALAPPDATA
 
 .before-script-vcpkg-linux: &before-script-vcpkg-linux
+  - git submodule update --init vcpkg-registry
   - if [ ! -d $VCPKG_LOCAL_GIT ]; then git clone https://git.moduleus.com/common/sw/3rdparty/vcpkg.git $VCPKG_LOCAL_GIT || exit 1; fi
   - baseline=$(grep -Po '"baseline":\s"\K[^"]+' vcpkg-configuration.json)
   - cd "$VCPKG_LOCAL_GIT"
@@ -109,7 +111,7 @@ build:windows-static:
   before_script:
     - *before-script-vcpkg-windows
   script:
-    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$Env:VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md -DVCPKG_HOST_TRIPLET=x64-windows-static-md -DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root="$Env:VCPKG_BUILDTREE"
+    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$Env:VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md-release-env -DVCPKG_HOST_TRIPLET=x64-windows-static-md-release-env -DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root="$Env:VCPKG_BUILDTREE"  -DVCPKG_OVERLAY_TRIPLETS=vcpkg-registry/triplets
     - cmake.exe --build CI --config Release -- /p:CL_MPcount=$NUM_PARALLEL
   after_script:
     - *after-script-clean-vcpkg-windows
@@ -122,8 +124,8 @@ build:windows-shared:
   before_script:
     - *before-script-vcpkg-windows
   script:
-    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$Env:VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_HOST_TRIPLET=x64-windows -DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root="$Env:VCPKG_BUILDTREE"
-    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$Env:VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_HOST_TRIPLET=x64-windows -DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root="$Env:VCPKG_BUILDTREE" -DVCPKG_MANIFEST_INSTALL:BOOL=OFF
+    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$Env:VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-release-env -DVCPKG_HOST_TRIPLET=x64-windows-release-env -DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root="$Env:VCPKG_BUILDTREE" -DVCPKG_OVERLAY_TRIPLETS=vcpkg-registry/triplets
+    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$Env:VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-release-env -DVCPKG_HOST_TRIPLET=x64-windows-release-env -DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root="$Env:VCPKG_BUILDTREE" -DVCPKG_MANIFEST_INSTALL:BOOL=OFF -DVCPKG_OVERLAY_TRIPLETS=vcpkg-registry/triplets
     - cmake.exe --build CI --config Release -- /p:CL_MPcount=$NUM_PARALLEL
   after_script:
     - *after-script-clean-vcpkg-windows
@@ -136,10 +138,15 @@ build:ubuntu-static:
   before_script:
     - *before-script-vcpkg-linux
   script:
-    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-linux -DVCPKG_HOST_TRIPLET=x64-linux -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-linux-release -DVCPKG_HOST_TRIPLET=x64-linux-release -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DVCPKG_OVERLAY_TRIPLETS=vcpkg-registry/triplets
     - cmake --build CI --config Release --parallel $NUM_PARALLEL
   after_script:
     - *after-script-clean-vcpkg-linux
+  artifacts:
+    paths:
+      - CI/compile_commands.json
+      - CI/vcpkg_installed/x64-linux-release/include
+    expire_in: 1 day
 
 build:ubuntu-shared:
   stage: build
@@ -149,7 +156,7 @@ build:ubuntu-shared:
   before_script:
     - *before-script-vcpkg-linux
   script:
-    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-linux-dynamic -DVCPKG_HOST_TRIPLET=x64-linux-dynamic -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-linux-dynamic-release -DVCPKG_HOST_TRIPLET=x64-linux-dynamic-release -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DVCPKG_OVERLAY_TRIPLETS=vcpkg-registry/triplets
     - cmake --build CI --config Release --parallel $NUM_PARALLEL
   after_script:
     - *after-script-clean-vcpkg-linux
