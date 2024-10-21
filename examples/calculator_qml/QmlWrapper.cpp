@@ -36,7 +36,6 @@ QuickPaintedView::QuickPaintedView(QQuickItem *parent)
 
 QSGNode *QuickPaintedView::updatePaintNode(QSGNode *old, UpdatePaintNodeData *data)
 {
-    std::cout << "updatePaintNode\n" << std::flush;
     //! NOTE It is necessary that when UI scaling is displayed without a blur
     setTextureSize(QSize(width(), height()));
     QSGNode *n = QQuickPaintedItem::updatePaintNode(old, data);
@@ -89,10 +88,7 @@ bool WidgetView::event(QEvent *event)
     }
 
     if (ok) {
-        std::cout << "update\n" << std::flush;
         update();
-    } else {
-        std::cout << "update fails\n" << std::flush;
     }
 
     return ok;
