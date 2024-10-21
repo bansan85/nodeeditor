@@ -1,18 +1,12 @@
-#include <QtNodes/ConnectionStyle>
-#include <QtNodes/DataFlowGraphModel>
-#include <QtNodes/DataFlowGraphicsScene>
-#include <QtNodes/GraphicsView>
-#include <QtNodes/NodeData>
-#include <QtNodes/NodeDelegateModelRegistry>
-
-#include <QPushButton>
-#include <QQmlApplicationEngine>
-#include <QtGui/QScreen>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QVBoxLayout>
-
 #include "QmlWrapper.hpp"
+#include <QApplication>
+#include <QByteArrayView>
+#include <QQmlApplicationEngine>
+#include <QQmlEngine>
+#include <QUrl>
+#include <QtGlobal>
+#include <QtNodes/ConnectionStyle>
+
 using QtNodes::ConnectionStyle;
 
 static void setStyle()

@@ -1,6 +1,6 @@
 #include "NumberDisplayDataModel.hpp"
-
-#include <QtWidgets/QLabel>
+#include "QtNodes/NodeDelegateModel"
+#include <QLabel>
 
 NumberDisplayDataModel::NumberDisplayDataModel()
     : _label{nullptr}

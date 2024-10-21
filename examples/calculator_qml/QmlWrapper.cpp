@@ -1,15 +1,4 @@
 #include "QmlWrapper.hpp"
-
-#include <QtNodes/NodeDelegateModelRegistry>
-
-#include <QPainter>
-#include <QPushButton>
-#include <QTimer>
-#include <QtNodes/ConnectionStyle>
-#include <QtNodes/DataFlowGraphModel>
-#include <QtNodes/DataFlowGraphicsScene>
-#include <QtNodes/GraphicsView>
-
 #include "AdditionModel.hpp"
 #include "DivisionModel.hpp"
 #include "MultiplicationModel.hpp"
@@ -17,6 +6,22 @@
 #include "NumberSourceDataModel.hpp"
 #include "StringDataModel.hpp"
 #include "SubtractionModel.hpp"
+#include <initializer_list>
+#include <memory>
+#include <QByteArray>
+#include <QCoreApplication>
+#include <QFile>
+#include <QIODevice>
+#include <QIODeviceBase>
+#include <QJsonDocument>
+#include <QMap>
+#include <QPoint>
+#include <QRegion>
+#include <QSize>
+#include <Qt>
+#include <QtNodes/ConnectionStyle>
+#include <QtNodes/DataFlowGraphicsScene>
+#include <QtNodes/GraphicsView>
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;

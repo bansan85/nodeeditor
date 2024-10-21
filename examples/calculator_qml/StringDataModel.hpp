@@ -1,7 +1,10 @@
 #pragma once
 
 #include "StringData.hpp"
+#include <memory>
 #include <QObject>
+#include <QString>
+#include <QWidget>
 #include <QtNodes/NodeDelegateModel>
 
 using QtNodes::NodeData;

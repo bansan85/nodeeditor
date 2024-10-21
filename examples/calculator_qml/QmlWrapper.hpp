@@ -1,11 +1,17 @@
 #pragma once
 
-#include <QPushButton>
+#include <QEvent>
+#include <QHoverEvent>
+#include <QMouseEvent>
+#include <QObject>
+#include <QPainter>
+#include <QQuickItem>
 #include <QQuickPaintedItem>
-#include <QVariant>
+#include <QSGNode>
 #include <QWidget>
 #include <QtNodes/DataFlowGraphicsScene>
 #include <QtNodes/GraphicsView>
+
 using QtNodes::DataFlowGraphicsScene;
 using QtNodes::DataFlowGraphModel;
 using QtNodes::GraphicsView;
