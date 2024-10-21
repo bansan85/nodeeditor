@@ -51,7 +51,8 @@ public:
    */
     virtual std::unordered_set<ConnectionId> connections(NodeId nodeId,
                                                          PortType portType,
-                                                         PortIndex index) const = 0;
+                                                         PortIndex index) const
+        = 0;
 
     /// Checks if two nodes with the given `connectionId` are connected.
     virtual bool connectionExists(ConnectionId const connectionId) const = 0;
@@ -128,10 +129,8 @@ public:
    * @returns Port Data Type, Port Data, Connection Policy, Port
    * Caption.
    */
-    virtual QVariant portData(NodeId nodeId,
-                              PortType portType,
-                              PortIndex index,
-                              PortRole role) const = 0;
+    virtual QVariant portData(NodeId nodeId, PortType portType, PortIndex index, PortRole role) const
+        = 0;
 
     /**
    * A utility function that unwraps the `QVariant` value returned from the
