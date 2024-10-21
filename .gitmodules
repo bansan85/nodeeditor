@@ -1,3 +1,0 @@
-[submodule "examples/calculator_tbb/vcpkg"]
-	path = examples/calculator_tbb/vcpkg
-	url = https://github.com/microsoft/vcpkg.git

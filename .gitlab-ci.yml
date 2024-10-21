@@ -1,5 +1,44 @@
 variables:
-  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_PROJECT_PATH
+
+.before-script-vcpkg-windows: &before-script-vcpkg-windows
+  - Push-Location
+  - if (-not (Test-Path -Path "$Env:VCPKG_LOCAL_GIT")) { git clone https://git.moduleus.com/common/sw/3rdparty/vcpkg.git $Env:VCPKG_LOCAL_GIT }
+  - $baseline=Select-String -Path "vcpkg-configuration.json" -Pattern '"baseline":\s"(.+?)"' | ForEach-Object { $_.Matches.Groups[1].Value }
+  - cd "$Env:VCPKG_LOCAL_GIT"
+  - git fetch
+  - git checkout $baseline
+  - Pop-Location
+  - $vcpkg_tag = (Get-Content $Env:VCPKG_LOCAL_GIT\scripts\vcpkg-tool-metadata.txt) | Select-String -Pattern '^VCPKG_TOOL_RELEASE_TAG=(.*)'  | %{$_.Matches.Groups[1].value}
+  - $url="https://github.com/microsoft/vcpkg-tool/releases/download/$vcpkg_tag/vcpkg.exe"
+  - $destination="$Env:VCPKG_CACHE_PATH\vcpkg-$vcpkg_tag.exe"
+  - if(-not(Test-Path $destination)){Invoke-WebRequest -Uri $url -OutFile $destination}
+  - Copy-Item $destination "$Env:VCPKG_LOCAL_GIT\vcpkg.exe"
+  - $Env:LOCALAPPDATA = $Env:GITLAB_LOCALAPPDATA
+
+.before-script-vcpkg-linux: &before-script-vcpkg-linux
+  - if [ ! -d $VCPKG_LOCAL_GIT ]; then git clone https://git.moduleus.com/common/sw/3rdparty/vcpkg.git $VCPKG_LOCAL_GIT || exit 1; fi
+  - baseline=$(grep -Po '"baseline":\s"\K[^"]+' vcpkg-configuration.json)
+  - cd "$VCPKG_LOCAL_GIT"
+  - git fetch
+  - git checkout $baseline
+  - cd -
+  - vcpkg_tag=$(sed -n 's/^VCPKG_TOOL_RELEASE_TAG=\(.*\)/\1/p' < "$VCPKG_LOCAL_GIT/scripts/vcpkg-tool-metadata.txt")
+  - destination="$VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag"
+  - if [ ! -f "$destination" ]; then wget -O "$destination" "https://github.com/microsoft/vcpkg-tool/releases/download/$vcpkg_tag/vcpkg-glibc" || exit 1; chmod +x "$destination"; fi
+  - cp $destination "$VCPKG_LOCAL_GIT/vcpkg" || exit 1
+
+.after-script-clean-vcpkg-windows: &after-script-clean-vcpkg-windows
+  - Remove-Item -LiteralPath "$Env:VCPKG_BUILDTREE" -Force -Recurse
+  - Remove-Item -LiteralPath "$Env:VCPKG_LOCAL_GIT/packages" -Force -Recurse
+
+.after-script-clean-vcpkg-linux: &after-script-clean-vcpkg-linux
+  - rm -Rf "$VCPKG_LOCAL_GIT/buildtrees"
+  - rm -Rf "$VCPKG_LOCAL_GIT/packages"
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG == null && $CI_PIPELINE_SOURCE != "merge_request_event"
 
 stages:
   - build
@@ -68,16 +107,12 @@ build:windows-static:
     - win10
     - build
   before_script:
-    - rm d:/vcpkg -r -Force
+    - *before-script-vcpkg-windows
   script:
-    - git clone --depth 1 --branch pfrd_gui https://git.moduleus.com/common/sw/3rdparty/vcpkg.git d:/vcpkg
-    - $vcpkg_tag = (Get-Content d:/vcpkg\scripts\vcpkg-tool-metadata.txt) | Select-String -Pattern '^VCPKG_TOOL_RELEASE_TAG=(.*)'  | %{$_.Matches.Groups[1].value}
-    - $url="https://github.com/microsoft/vcpkg-tool/releases/download/$vcpkg_tag/vcpkg.exe"
-    - $destination="$Env:VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag.exe"
-    - if(-not(Test-Path $destination)){Invoke-WebRequest -Uri $url -OutFile $destination}
-    - Copy-Item $destination d:/vcpkg/vcpkg.exe
-    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE="d:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md -DVCPKG_HOST_TRIPLET=x64-windows-static-md -DVCPKG_INSTALLED_DIR=d:/vcpkg_installed
+    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$Env:VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md -DVCPKG_HOST_TRIPLET=x64-windows-static-md -DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root="$Env:VCPKG_BUILDTREE"
     - cmake.exe --build CI --config Release -- /p:CL_MPcount=$NUM_PARALLEL
+  after_script:
+    - *after-script-clean-vcpkg-windows
 
 build:windows-shared:
   stage: build
@@ -85,203 +120,36 @@ build:windows-shared:
     - win10
     - build
   before_script:
-    - rm d:/vcpkg -r -Force
+    - *before-script-vcpkg-windows
   script:
-    - git clone --depth 1 --branch pfrd_gui https://git.moduleus.com/common/sw/3rdparty/vcpkg.git d:/vcpkg
-    - $vcpkg_tag = (Get-Content d:/vcpkg\scripts\vcpkg-tool-metadata.txt) | Select-String -Pattern '^VCPKG_TOOL_RELEASE_TAG=(.*)'  | %{$_.Matches.Groups[1].value}
-    - $url="https://github.com/microsoft/vcpkg-tool/releases/download/$vcpkg_tag/vcpkg.exe"
-    - $destination="$Env:VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag.exe"
-    - if(-not(Test-Path $destination)){Invoke-WebRequest -Uri $url -OutFile $destination}
-    - Copy-Item $destination d:/vcpkg/vcpkg.exe
-    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="d:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_HOST_TRIPLET=x64-windows -DVCPKG_INSTALLED_DIR=d:/vcpkg_installed
+    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$Env:VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_HOST_TRIPLET=x64-windows -DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root="$Env:VCPKG_BUILDTREE"
+    - cmake.exe -S . -B CI -G "Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$Env:VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_HOST_TRIPLET=x64-windows -DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root="$Env:VCPKG_BUILDTREE" -DVCPKG_MANIFEST_INSTALL:BOOL=OFF
     - cmake.exe --build CI --config Release -- /p:CL_MPcount=$NUM_PARALLEL
+  after_script:
+    - *after-script-clean-vcpkg-windows
 
 build:ubuntu-static:
   stage: build
   tags:
     - ubuntu
     - build
+  before_script:
+    - *before-script-vcpkg-linux
   script:
-    - git clone --depth 1 --branch pfrd_gui https://git.moduleus.com/common/sw/3rdparty/vcpkg.git
-    - vcpkg_tag=$(sed -n 's/^VCPKG_TOOL_RELEASE_TAG=\(.*\)/\1/p' < vcpkg/scripts/vcpkg-tool-metadata.txt)
-    - if [ ! -f "$VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag" ]; then wget -O "$VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag" "https://github.com/microsoft/vcpkg-tool/releases/download/$vcpkg_tag/vcpkg-glibc" || exit 1; chmod +x "$VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag"; fi
-    - cp $VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag vcpkg/vcpkg || exit 1
-    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE="vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-linux -DVCPKG_HOST_TRIPLET=x64-linux
+    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-linux -DVCPKG_HOST_TRIPLET=x64-linux -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
     - cmake --build CI --config Release --parallel $NUM_PARALLEL
+  after_script:
+    - *after-script-clean-vcpkg-linux
 
 build:ubuntu-shared:
   stage: build
   tags:
     - ubuntu
     - build
+  before_script:
+    - *before-script-vcpkg-linux
   script:
-    - git clone --depth 1 --branch pfrd_gui https://git.moduleus.com/common/sw/3rdparty/vcpkg.git
-    - vcpkg_tag=$(sed -n 's/^VCPKG_TOOL_RELEASE_TAG=\(.*\)/\1/p' < vcpkg/scripts/vcpkg-tool-metadata.txt)
-    - if [ ! -f "$VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag" ]; then wget -O "$VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag" "https://github.com/microsoft/vcpkg-tool/releases/download/$vcpkg_tag/vcpkg-glibc" || exit 1; chmod +x "$VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag"; fi
-    - cp $VCPKG_CACHE_PATH/vcpkg-$vcpkg_tag vcpkg/vcpkg || exit 1
-    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-linux-dynamic -DVCPKG_HOST_TRIPLET=x64-linux-dynamic
+    - cmake -S . -B CI -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" -DBUILD_SHARED_LIBS=ON -DCMAKE_TOOLCHAIN_FILE:PATHFILE="$VCPKG_LOCAL_GIT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-linux-dynamic -DVCPKG_HOST_TRIPLET=x64-linux-dynamic -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
     - cmake --build CI --config Release --parallel $NUM_PARALLEL
-
-#test:windows-static:
-#  stage: test
-#  dependencies:
-#    - build:windows-static
-#  tags:
-#    - win10
-#    - test
-#  script:
-#    - cd CI
-#    - ctest --output-on-failure -C Release
-#  allow_failure: true
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
-#
-#test:windows-shared:
-#  stage: test
-#  dependencies:
-#    - build:windows-shared
-#  tags:
-#    - win10
-#    - test
-#  script:
-#    - cd CI
-#    - ctest --output-on-failure -C Release
-#  allow_failure: true
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
-#
-#test:ubuntu-static:
-#  stage: test
-#  dependencies:
-#    - build:ubuntu-static
-#  tags:
-#    - ubuntu
-#    - test
-#  script:
-#    - cd CI
-#    - ctest --output-on-failure -C Release
-#  allow_failure: true
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
-#
-#test:ubuntu-shared:
-#  stage: test
-#  dependencies:
-#    - build:ubuntu-shared
-#  tags:
-#    - ubuntu
-#    - test
-#  script:
-#    - cd CI
-#    - ctest --output-on-failure -C Release
-#  allow_failure: true
-#  artifacts:
-#    paths:
-#      - CI
-#    expire_in: 1 day
-#
-#install:windows-static:
-#  stage: install
-#  dependencies:
-#    - build:windows-static
-##    - format:clang-format
-##    - format:cmake-format
-##    - format:clang-tidy
-#  tags:
-#    - win10
-#    - build
-#  script:
-#    - cmake.exe --install CI --config Release
-#
-#install:windows-shared:
-#  stage: install
-#  dependencies:
-#    - build:windows-shared
-##    - format:clang-format
-##    - format:cmake-format
-##    - format:clang-tidy
-#  tags:
-#    - win10
-#    - build
-#  script:
-#    - cmake.exe --install CI --config Release
-#
-#install:ubuntu-static:
-#  stage: install
-#  dependencies:
-#    - build:ubuntu-static
-##    - format:clang-format
-##    - format:cmake-format
-##    - format:clang-tidy
-#  tags:
-#    - ubuntu
-#    - build
-#  script:
-#    - cmake --install CI --config Release
-#
-#install:ubuntu-shared:
-#  stage: install
-#  dependencies:
-#    - build:ubuntu-shared
-##    - format:clang-format
-##    - format:cmake-format
-##    - format:clang-tidy
-#  tags:
-#    - ubuntu
-#    - build
-#  script:
-#    - cmake --install CI --config Release
-#  artifacts:
-#    paths:
-#      - CI/version.txt
-#    expire_in: 1 day
-#
-#install:android-ubuntu-static:
-#  stage: install
-#  dependencies:
-#    - build:android-ubuntu-static
-##    - format:clang-format
-##    - format:cmake-format
-##    - format:clang-tidy
-#  tags:
-#    - android
-#    - ubuntu
-#    - build
-#  script:
-#    - cmake --install CI --config Release
-#
-#install:android-ubuntu-shared:
-#  stage: install
-#  dependencies:
-#    - build:android-ubuntu-shared
-##    - format:clang-format
-##    - format:cmake-format
-##    - format:clang-tidy
-#  tags:
-#    - android
-#    - ubuntu
-#    - build
-#  script:
-#    - cmake --install CI --config Release
-#
-#tag-version:
-#  stage: tag
-#  dependencies:
-#    - install:ubuntu-shared
-#  rules:
-#    - if: $CI_COMMIT_TAG
-#      when: never
-#    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-#  script:
-#    - git tag -f $(cat CI/version.txt)
-#    - git push -f --tags
-#  tags:
-#    - ubuntu
-#    - build
-#
+  after_script:
+    - *after-script-clean-vcpkg-linux

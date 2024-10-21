@@ -1,11 +1,25 @@
 {
   "dependencies": [
-    "qtdeclarative",
-    "qtbase",
-    "qtcharts",
-    "qtlanguageserver",
-    "qttranslations",
+    {
+      "name": "qtdeclarative",
+      "default-features": false
+    },
+    {
+      "name": "qtbase",
+      "default-features": false,
+      "features": [
+        "gui",
+        "widgets"
+      ]
+    },
+    {
+      "name": "freetype",
+      "default-features": false
+    },
     "catch2",
-    "tbb"
+    {
+      "name": "tbb",
+      "default-features": false
+    }
   ]
 }
