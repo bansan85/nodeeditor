@@ -1,5 +1,6 @@
 add_executable(
   dynamic_ports
+  WIN32
   "CMakeLists.txt"
   "DynamicPortsModel.cpp"
   "DynamicPortsModel.hpp"
@@ -9,7 +10,7 @@ add_executable(
 
 target_link_libraries(dynamic_ports QtNodes)
 
-if(WIN32)
+if(WIN32 AND BUILD_SHARED_LIBS)
   add_custom_command(
     TARGET dynamic_ports
     POST_BUILD

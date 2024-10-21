@@ -17,6 +17,7 @@ set(CALC_HEADER_FILES
 )
 
 add_executable(calculator
+  WIN32
   ${CALC_SOURCE_FILES}
   ${CALC_HEADER_FILES}
   CMakeLists.txt
@@ -39,7 +40,7 @@ add_executable(headless_calculator
 
 target_link_libraries(headless_calculator QtNodes)
 
-if(WIN32)
+if(WIN32 AND BUILD_SHARED_LIBS)
   add_custom_command(
     TARGET calculator
     POST_BUILD

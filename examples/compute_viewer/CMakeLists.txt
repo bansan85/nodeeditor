@@ -43,12 +43,12 @@ set(COMPUTE_HEADER_FILES
     AverageData.hpp
     DasPwWidget.hpp)
 
-add_executable(compute_viewer ${COMPUTE_SOURCE_FILES} ${COMPUTE_HEADER_FILES}
+add_executable(compute_viewer WIN32 ${COMPUTE_SOURCE_FILES} ${COMPUTE_HEADER_FILES}
                               CMakeLists.txt)
 
 target_link_libraries(compute_viewer QtNodes)
 
-if(WIN32)
+if(WIN32 AND BUILD_SHARED_LIBS)
   add_custom_command(
     TARGET compute_viewer
     POST_BUILD

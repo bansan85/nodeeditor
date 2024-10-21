@@ -34,7 +34,7 @@ qt_add_qml_module(
 target_link_libraries(calculator_qml PRIVATE Qt6::Gui Qt6::Quick
                                              Qt6::QuickWidgets QtNodes)
 
-if(WIN32)
+if(WIN32 AND BUILD_SHARED_LIBS)
   add_custom_command(
     TARGET calculator_qml
     POST_BUILD
