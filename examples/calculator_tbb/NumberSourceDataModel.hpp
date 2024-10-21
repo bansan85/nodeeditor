@@ -1,7 +1,6 @@
 #pragma once
 
 #include "DecimalData.hpp"
-#include "QtNodes/DataFlowGraphModel"
 #include "TbbDataModel.hpp"
 #include <memory>
 #include <oneapi/tbb/flow_graph.h>
@@ -13,6 +12,7 @@
 #include <QString>
 #include <QStringLiteral>
 #include <QWidget>
+#include <QtNodes/DataFlowGraphModel>
 
 using QtNodes::NodeDataType;
 using QtNodes::NodeDelegateModel;

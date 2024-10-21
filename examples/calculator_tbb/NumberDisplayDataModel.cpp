@@ -1,6 +1,7 @@
 #include "NumberDisplayDataModel.hpp"
 #include "DecimalData.hpp"
 #include <QLabel>
+#include <QtNodes/DataFlowGraphModel>
 
 NumberDisplayDataModel::NumberDisplayDataModel()
     : _label{nullptr}

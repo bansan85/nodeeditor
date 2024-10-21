@@ -4,6 +4,7 @@
 #include <QJsonValue>
 #include <QJsonValueRef>
 #include <QLineEdit>
+#include <QtNodes/DataFlowGraphModel>
 
 NumberSourceDataModel::NumberSourceDataModel()
     : _lineEdit{nullptr}
