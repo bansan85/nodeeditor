@@ -49,7 +49,6 @@ private:
             g, tbb::flow::unlimited, [this](const std::tuple<float, float> &input) {
                 float a = std::get<0>(input);
                 float b = std::get<1>(input);
-                std::cout << "add_node\n";
                 _result = std::make_shared<DecimalData>(a + b);
 
                 QMetaObject::invokeMethod(qApp, [this] { Q_EMIT dataUpdated(0); });

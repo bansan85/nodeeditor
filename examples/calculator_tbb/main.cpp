@@ -85,9 +85,11 @@ static void setStyle()
 
 int main(int argc, char *argv[])
 {
+#if defined(_WIN32) && !defined(NDEBUG)
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONOUT$", "w", stderr);
+#endif
 
     QApplication app(argc, argv);
 
@@ -137,7 +139,6 @@ int main(int argc, char *argv[])
             add_node(g, tbb::flow::unlimited, [](const std::tuple<float, float> &input) {
                 float a = std::get<0>(input);
                 float b = std::get<1>(input);
-                std::cout << "add_node\n";
                 return a + b;
             });
 
@@ -154,7 +155,6 @@ int main(int argc, char *argv[])
             subtract_node(g, tbb::flow::unlimited, [](const std::tuple<float, float> &input) {
                 float a = std::get<0>(input);
                 float b = std::get<1>(input);
-                std::cout << "subtract_node\n";
                 return a - b;
             });
 
@@ -192,8 +192,6 @@ int main(int argc, char *argv[])
         } else {
             std::cout << "join_node 2 output failure\n";
         }
-
-        std::cout << "fdsqfdsqfdsq\n";
     });
 
     QObject::connect(computeTbbAction, &QAction::triggered, [scene, &dataFlowGraphModel]() {
@@ -207,7 +205,7 @@ int main(int argc, char *argv[])
             for (QtNodes::NodeId node : nodes) {
                 bool skip = false;
                 QVariant v = scene->graphModel().nodeData(node, QtNodes::NodeRole::Type);
-                std::cout << "Node " << node << ": " << v.toString().toStdString() << "\n";
+
                 auto allConnectionIds = scene->graphModel().allConnectionIds(node);
                 for (const QtNodes::ConnectionId &j : allConnectionIds) {
                     // Dependency on an output port. Don't care.
@@ -222,8 +220,6 @@ int main(int argc, char *argv[])
                     break;
                 }
                 if (!skip) {
-                    std::cout << node << " insertable\n";
-
                     auto *nodei = dataFlowGraphModel.delegateModel<TbbDataModelVoid>(node);
                     auto t = allNodes
                              | std::views::transform([&dataFlowGraphModel](const NodeId &name) {
