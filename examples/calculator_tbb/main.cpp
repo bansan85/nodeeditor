@@ -1,29 +1,37 @@
-#include <QtNodes/ConnectionStyle>
-#include <QtNodes/DataFlowGraphModel>
-#include <QtNodes/DataFlowGraphicsScene>
-#include <QtNodes/GraphicsView>
-#include <QtNodes/NodeData>
-#include <QtNodes/NodeDelegateModelRegistry>
-
-#include <QtGui/QScreen>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QVBoxLayout>
-
-#include <QtGui/QScreen>
-
 #include "AdditionModel.hpp"
+#include "DecimalData.hpp"
 #include "DivisionModel.hpp"
 #include "MultiplicationModel.hpp"
 #include "NumberDisplayDataModel.hpp"
 #include "NumberSourceDataModel.hpp"
 #include "SubtractionModel.hpp"
+#include "TbbDataModel.hpp"
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <oneapi/tbb/flow_graph.h>
+#include <stdio.h>
+#include <tuple>
+#include <unordered_set>
+#include <vector>
+#include <QAction>
+#include <QApplication>
+#include <QMenu>
+#include <QMenuBar>
+#include <QObject>
+#include <QPoint>
+#include <QRect>
+#include <QScreen>
+#include <QVBoxLayout>
+#include <QVariant>
+#include <QWidget>
+#include <QtNodes/ConnectionStyle>
+#include <QtNodes/DataFlowGraphicsScene>
+#include <QtNodes/GraphicsView>
 
-#include <tbb/tbb.h>
-
-#include "Helpers.hpp"
-
-#include <ranges>
+#if defined(_WIN32) && !defined(NDEBUG)
+#include <windows.h>
+#endif
 
 using QtNodes::ConnectionId;
 using QtNodes::ConnectionStyle;
@@ -221,11 +229,15 @@ int main(int argc, char *argv[])
                 }
                 if (!skip) {
                     auto *nodei = dataFlowGraphModel.delegateModel<TbbDataModelVoid>(node);
-                    auto t = allNodes
-                             | std::views::transform([&dataFlowGraphModel](const NodeId &name) {
-                                   return dataFlowGraphModel.delegateModel<TbbDataModelVoid>(name);
-                               })
-                             | to_vector();
+                    std::vector<TbbDataModelVoid *> t;
+                    t.resize(allNodes.size());
+                    std::transform(allNodes.cbegin(),
+                                   allNodes.cend(),
+                                   t.begin(), // write to the same location
+                                   [&dataFlowGraphModel](const NodeId &name) {
+                                       return dataFlowGraphModel.delegateModel<TbbDataModelVoid>(
+                                           name);
+                                   });
                     nodei->constructTbbGraph(t, allConnectionIds, g, dataFlowGraphModel, node);
 
                     nodesRemaining.erase(node);

@@ -1,13 +1,13 @@
 #pragma once
 
-#include <QtCore/QObject>
-#include <QtWidgets/QLabel>
-
-#include <QtNodes/NodeDelegateModel>
-
-#include "MathOperationDataModel.hpp"
-
 #include "DecimalData.hpp"
+#include "MathOperationDataModel.hpp"
+#include <oneapi/tbb/flow_graph.h>
+#include <unordered_set>
+#include <QtCore/QObject>
+#include <QtNodes/ConnectionIdHash>
+#include <QtNodes/NodeDelegateModel>
+#include <QtWidgets/QLabel>
 
 using oneapi::tbb::flow::function_node;
 

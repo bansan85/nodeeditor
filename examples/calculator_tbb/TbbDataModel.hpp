@@ -1,17 +1,9 @@
 #pragma once
 
-#pragma once
-
-#include <QtNodes/DataFlowGraphModel>
-#include <QtNodes/NodeDelegateModel>
-
-#include <QtCore/QObject>
-
-#include <iostream>
-#include <tbb/tbb.h>
-
-#include <ranges>
+#include <oneapi/tbb/flow_graph.h>
 #include <unordered_set>
+#include <vector>
+#include <QtNodes/DataFlowGraphModel>
 
 using QtNodes::ConnectionId;
 using QtNodes::DataFlowGraphModel;

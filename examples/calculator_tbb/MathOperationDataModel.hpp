@@ -1,16 +1,11 @@
 #pragma once
 
-#include <QtNodes/NodeDelegateModel>
-
-#include <QtCore/QJsonObject>
-#include <QtCore/QObject>
-#include <QtWidgets/QLabel>
-
-#include <iostream>
-
-#include "TbbDataModel.hpp"
-
 #include "DecimalData.hpp"
+#include "TbbDataModel.hpp"
+#include <memory>
+#include <QObject>
+#include <QWidget>
+#include <QtNodes/NodeDelegateModel>
 
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;

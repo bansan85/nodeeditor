@@ -1,16 +1,19 @@
 #pragma once
 
-#include <QtNodes/NodeDelegateModel>
-
-#include <tbb/tbb.h>
-#include <QtCore/QObject>
-
+#include "QtNodes/DataFlowGraphModel"
+#include "TbbDataModel.hpp"
 #include <iostream>
+#include <memory>
+#include <oneapi/tbb/flow_graph.h>
+#include <tuple>
+#include <unordered_set>
+#include <vector>
+#include <QObject>
+#include <QString>
+#include <QStringLiteral>
+#include <QWidget>
 
 class DecimalData;
-
-#include "TbbDataModel.hpp"
-#include <QtNodes/NodeData>
 
 using oneapi::tbb::flow::join_node;
 using QtNodes::NodeData;

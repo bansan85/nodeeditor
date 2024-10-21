@@ -2,11 +2,13 @@
 
 #include "DecimalData.hpp"
 #include "MathOperationDataModel.hpp"
-
-#include <QtNodes/NodeDelegateModel>
-
 #include <memory>
+#include <oneapi/tbb/flow_graph.h>
+#include <unordered_set>
+#include <QApplication>
 #include <QtCore/QObject>
+#include <QtNodes/ConnectionIdHash>
+#include <QtNodes/NodeDelegateModel>
 #include <QtWidgets/QLabel>
 
 using oneapi::tbb::flow::input_port;

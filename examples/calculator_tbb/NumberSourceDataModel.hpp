@@ -1,17 +1,18 @@
 #pragma once
 
-#include <QtNodes/NodeDelegateModel>
-
-#include <QtCore/QObject>
-
 #include "DecimalData.hpp"
-#include <tbb/tbb.h>
-
-#include <iostream>
-
-class DecimalData;
-
+#include "QtNodes/DataFlowGraphModel"
 #include "TbbDataModel.hpp"
+#include <memory>
+#include <oneapi/tbb/flow_graph.h>
+#include <tuple>
+#include <unordered_set>
+#include <vector>
+#include <QJsonObject>
+#include <QObject>
+#include <QString>
+#include <QStringLiteral>
+#include <QWidget>
 
 using QtNodes::NodeDataType;
 using QtNodes::NodeDelegateModel;
