@@ -137,6 +137,7 @@
   {"symbol": ["QSize", "private", "<QSize>", "public"]},
   {"symbol": ["QSizeF", "private", "<QSizeF>", "public"]},
   {"symbol": ["QSizePolicy", "private", "<QSizePolicy>", "public"]},
+  {"symbol": ["QSlider", "private", "<QSlider>", "public"]},
   {"symbol": ["QString", "private", "<QString>", "public"]},
   {"symbol": ["QStringLiteral", "private", "<QStringLiteral>", "public"]},
   {"symbol": ["QStyleOptionGraphicsItem", "private", "<QStyleOptionGraphicsItem>", "public"]},
@@ -158,5 +159,5 @@
   {"symbol": ["QWidgetItem", "private", "<QWidgetItem>", "public"]},
   {"symbol": ["ShortcutContext", "private", "<QShortcut>", "public"]},
   {"symbol": ["size_t", "private", "<cstddef>", "public"]},
-  {"symbol": ["WidgetShortcut", "private", "<QShortcut>", "public"]},
+  {"symbol": ["WidgetShortcut", "private", "<QShortcut>", "public"]}
 ]
