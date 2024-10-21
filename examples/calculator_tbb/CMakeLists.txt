@@ -22,6 +22,7 @@ set(CALC_HEADER_FILES
 )
 
 add_executable(calculator_tbb
+  WIN32
   ${CALC_SOURCE_FILES}
   ${CALC_HEADER_FILES}
 )
@@ -29,7 +30,7 @@ add_executable(calculator_tbb
 target_link_libraries(calculator_tbb QtNodes TBB::tbb)
 target_compile_definitions(calculator_tbb PRIVATE QT_NO_KEYWORDS)
 
-if(WIN32)
+if(WIN32 AND BUILD_SHARED_LIBS)
   add_custom_command(
     TARGET calculator_tbb
     POST_BUILD
