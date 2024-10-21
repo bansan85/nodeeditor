@@ -46,9 +46,7 @@ private:
         }
 
         func_node = std::make_shared<tbb::flow::function_node<std::tuple<float, float>, float>>(
-            g,
-            tbb::flow::unlimited,
-            [this](const std::tuple<float, float> &input) {
+            g, tbb::flow::unlimited, [this](const std::tuple<float, float> &input) {
                 float a = std::get<0>(input);
                 float b = std::get<1>(input);
                 std::cout << "add_node\n";

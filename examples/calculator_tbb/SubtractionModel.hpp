@@ -94,7 +94,7 @@ private:
     void *getTbbSenderSub(PortIndex idx) override
     {
         if (idx == 0) {
-            return static_cast<oneapi::tbb::flow::sender<float>*> (func_node.get());
+            return static_cast<oneapi::tbb::flow::sender<float> *>(func_node.get());
         } else {
             return nullptr;
         }

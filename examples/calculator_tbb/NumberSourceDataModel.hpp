@@ -73,15 +73,13 @@ private:
         buf1_node1 = std::make_shared<broadcast_node<float>>(g);
     }
 
-    void tryPutTbb() override { 
+    void tryPutTbb() override
+    {
         buf1_node1->try_put(_number->number());
         Q_EMIT dataUpdated(0);
     }
 
-    void free() override
-    {
-        buf1_node1.reset();
-    }
+    void free() override { buf1_node1.reset(); }
 
     void *getTbbSenderSub(PortIndex idx) override
     {

@@ -67,7 +67,6 @@ public:
         }
     }
 
-
     QWidget *embeddedWidget() override { return nullptr; }
 
 protected:

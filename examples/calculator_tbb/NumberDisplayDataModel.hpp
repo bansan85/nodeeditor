@@ -73,10 +73,10 @@ private:
                 make_edge(sender, input_port<0>(*input_data));
                 func_node = std::make_shared<
                     tbb::flow::function_node<std::tuple<float>, tbb::flow::continue_msg>>(
-                        g, tbb::flow::unlimited, [](const std::tuple<float> &input) {
-                            float a = std::get<0>(input);
-                            std::cout << "Result " << a << "\n";
-                        });
+                    g, tbb::flow::unlimited, [](const std::tuple<float> &input) {
+                        float a = std::get<0>(input);
+                        std::cout << "Result " << a << "\n";
+                    });
 
                 make_edge(*input_data, *func_node);
             }
@@ -101,6 +101,5 @@ private:
     std::shared_ptr<broadcast_node<float>> buf1_node1;
 
     std::shared_ptr<join_node<std::tuple<float>>> input_data;
-    std::shared_ptr<tbb::flow::function_node<std::tuple<float>, tbb::flow::continue_msg>>
-        func_node;
+    std::shared_ptr<tbb::flow::function_node<std::tuple<float>, tbb::flow::continue_msg>> func_node;
 };

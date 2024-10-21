@@ -1,5 +1,5 @@
-#include <vector>
 #include <ranges>
+#include <vector>
 
 /**
  * \brief Creates a to_vector_closure for operator()
@@ -15,7 +15,7 @@ struct to_vector_adapter
          * \return vector from the given range.
          */
         template<std::ranges::range R>
-        constexpr auto operator()(R&& r) const
+        constexpr auto operator()(R &&r) const
         {
             auto r_common = r | std::views::common;
             std::vector<std::ranges::range_value_t<R>> v;
@@ -35,14 +35,10 @@ struct to_vector_adapter
      * \brief Gets a closure to convert the range to a vector.
      * \return A to_vector_closure that will convert the range to a vector.
      */
-    constexpr auto operator()() const -> closure
-    {
-        return closure{};
-    }
-
+    constexpr auto operator()() const -> closure { return closure{}; }
 
     template<std::ranges::range R>
-    constexpr auto operator()(R&& r)
+    constexpr auto operator()(R &&r)
     {
         return closure{}(r);
     }
@@ -58,7 +54,7 @@ inline to_vector_adapter to_vector;
  * \return a vector from the given range.
  */
 template<std::ranges::range R>
-constexpr auto operator|(R&& r, to_vector_adapter::closure const& a)
+constexpr auto operator|(R &&r, to_vector_adapter::closure const &a)
 {
     return a(std::forward<R>(r));
 }
