@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DasPwWidget.hpp"
 #include <memory>
 #include <QJsonObject>
 #include <QObject>
@@ -7,8 +8,6 @@
 #include <QStringLiteral>
 #include <QWidget>
 #include <QtNodes/NodeDelegateModel>
-
-class AcqData;
 
 using QtNodes::ConnectionPolicy;
 using QtNodes::NodeData;
@@ -19,12 +18,12 @@ using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class AcqModel : public NodeDelegateModel
+class DasPwModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    ~AcqModel() override = default;
+    ~DasPwModel() override = default;
 
 public:
     unsigned int nPorts(PortType portType) const override;
@@ -37,20 +36,16 @@ public:
 
     QWidget *embeddedWidget() override;
 
-    QString caption() const override { return _title; }
+    QString caption() const override { return QStringLiteral("DasPw"); }
 
-    QString name() const override { return QStringLiteral("Acquisition"); }
-
-    ConnectionPolicy portConnectionPolicy(PortType, PortIndex) const override
-    {
-        return ConnectionPolicy::Many;
-    }
+    QString name() const override { return QStringLiteral("DasPw"); }
 
     QJsonObject save() const override;
 
     void load(QJsonObject const &) override;
 
 private:
-    std::shared_ptr<AcqData> _result;
-    QString _title;
+    DasPwWidget *_widget;
+    float _f;
+    float _c0;
 };

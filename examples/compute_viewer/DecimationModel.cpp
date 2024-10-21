@@ -34,14 +34,7 @@ std::shared_ptr<NodeData> DecimationModel::outData(PortIndex)
     return nullptr;
 }
 
-void DecimationModel::setInData(std::shared_ptr<NodeData> data, PortIndex portIndex)
-{
-    auto numberData = std::dynamic_pointer_cast<DecimationModel>(data);
-
-    if (!data) {
-        Q_EMIT dataInvalidated(0);
-    }
-}
+void DecimationModel::setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) {}
 
 QWidget *DecimationModel::embeddedWidget()
 {
@@ -49,7 +42,7 @@ QWidget *DecimationModel::embeddedWidget()
         return _widget;
     }
 
-    _widget = new DecimationWidget(nullptr);
+    _widget = new DecimationWidget(_m, nullptr);
 
     return _widget;
 }
@@ -57,12 +50,12 @@ QWidget *DecimationModel::embeddedWidget()
 QJsonObject DecimationModel::save() const
 {
     QJsonObject retval = NodeDelegateModel::save();
-    retval["M"] = _widget->getM();
+    retval["M"] = _m;
     return retval;
 }
 
 void DecimationModel::load(QJsonObject const &object)
 {
     NodeDelegateModel::load(object);
-    _widget->setM(object["M"].toDouble());
+    _m = object["M"].toDouble();
 }

@@ -46,4 +46,5 @@ public:
 
 private:
     DecimationWidget *_widget;
+    float _m;
 };

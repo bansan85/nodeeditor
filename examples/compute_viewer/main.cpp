@@ -1,5 +1,13 @@
+#include "AverageModel.hpp"
+#include "CalculatorModel.hpp"
+#include "ClutterFilterModel.hpp"
+#include "DasPwModel.hpp"
 #include "DecimationModel.hpp"
+#include "DopplerViewerModel.hpp"
 #include "InputModel.hpp"
+#include "OutputModel.hpp"
+#include "RoiRectModel.hpp"
+#include "RoiSphereModel.hpp"
 #include <memory>
 #include <QAction>
 #include <QApplication>
@@ -25,8 +33,16 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
 {
     auto ret = std::make_shared<NodeDelegateModelRegistry>();
 
-    ret->registerModel<InputModel>("Input");
-    ret->registerModel<DecimationModel>("Decimation");
+    ret->registerModel<InputModel>("Node");
+    ret->registerModel<DecimationModel>("Node");
+    ret->registerModel<DasPwModel>("Node");
+    ret->registerModel<ClutterFilterModel>("Node");
+    ret->registerModel<DopplerViewerModel>("Node");
+    ret->registerModel<RoiSphereModel>("Node");
+    ret->registerModel<RoiRectModel>("Node");
+    ret->registerModel<AverageModel>("Node");
+    ret->registerModel<CalculatorModel>("Node");
+    ret->registerModel<OutputModel>("Node");
 
     return ret;
 }

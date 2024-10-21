@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <QColor>
 #include <QInputDialog>
+#include <QJsonValue>
+#include <QJsonValueRef>
 #include <QLineEdit>
 #include <QtNodes/NodeDelegateModel>
 

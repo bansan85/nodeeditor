@@ -26,14 +26,7 @@ std::shared_ptr<NodeData> InputModel::outData(PortIndex)
     return nullptr;
 }
 
-void InputModel::setInData(std::shared_ptr<NodeData> data, PortIndex portIndex)
-{
-    auto numberData = std::dynamic_pointer_cast<InputModel>(data);
-
-    if (!data) {
-        Q_EMIT dataInvalidated(0);
-    }
-}
+void InputModel::setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) {}
 
 QWidget *InputModel::embeddedWidget()
 {
