@@ -1,10 +1,10 @@
 #include "AcqModel.hpp"
 #include "AcqData.hpp"
-#include "QtNodes/NodeDelegateModel"
 #include <cstdlib>
 #include <QColor>
 #include <QInputDialog>
 #include <QLineEdit>
+#include <QtNodes/NodeDelegateModel>
 
 using QtNodes::NodeStyle;
 

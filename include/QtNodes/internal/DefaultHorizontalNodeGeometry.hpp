@@ -2,7 +2,7 @@
 
 #include "AbstractNodeGeometry.hpp"
 #include "Definitions.hpp"
-#include "Export.hpp"
+#include <QFont>
 #include <QFontMetrics>
 #include <QPointF>
 #include <QRect>

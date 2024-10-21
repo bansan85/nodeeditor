@@ -1,7 +1,5 @@
 #include "DynamicPortsModel.hpp"
 #include "PortAddRemoveWidget.hpp"
-#include "QtNodes/AbstractGraphModel"
-#include "QtNodes/StyleCollection"
 #include <algorithm>
 #include <iterator>
 #include <unordered_set>
@@ -10,7 +8,9 @@
 #include <QJsonValue>
 #include <QJsonValueRef>
 #include <QtGlobal>
+#include <QtNodes/AbstractGraphModel>
 #include <QtNodes/ConnectionIdUtils>
+#include <QtNodes/StyleCollection>
 
 DynamicPortsModel::DynamicPortsModel()
     : _nextNodeId{0}

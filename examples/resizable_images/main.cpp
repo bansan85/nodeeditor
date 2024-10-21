@@ -1,11 +1,11 @@
 #include "ImageLoaderModel.hpp"
 #include "ImageShowModel.hpp"
-#include "QtNodes/internal/ConnectionStyle.hpp"
 #include <memory>
 #include <QApplication>
 #include <QPoint>
 #include <QRect>
 #include <QScreen>
+#include <QtNodes/ConnectionStyle>
 #include <QtNodes/DataFlowGraphicsScene>
 #include <QtNodes/GraphicsView>
 

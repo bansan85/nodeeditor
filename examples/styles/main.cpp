@@ -1,10 +1,9 @@
-#include "QtNodes/internal/ConnectionStyle.hpp"
-#include "QtNodes/internal/StyleCollection.hpp"
 #include "models.hpp"
 #include <memory>
 #include <QApplication>
 #include <QtNodes/DataFlowGraphicsScene>
 #include <QtNodes/GraphicsView>
+#include <QtNodes/StyleCollection>
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;

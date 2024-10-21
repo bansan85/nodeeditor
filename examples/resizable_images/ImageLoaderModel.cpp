@@ -1,9 +1,9 @@
 #include "ImageLoaderModel.hpp"
-#include "QtNodes/NodeDelegateModel"
 #include <QDir>
 #include <QFileDialog>
 #include <QFont>
 #include <Qt>
+#include <QtNodes/NodeDelegateModel>
 
 ImageLoaderModel::ImageLoaderModel()
     : _label(new QLabel("Double click to load image"))

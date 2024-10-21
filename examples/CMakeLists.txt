@@ -19,3 +19,5 @@ add_subdirectory(lock_nodes_and_connections)
 add_subdirectory(calculator_qml)
 
 add_subdirectory(acquisition_viewer)
+
+add_subdirectory(compute_viewer)

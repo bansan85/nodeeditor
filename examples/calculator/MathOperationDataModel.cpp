@@ -1,6 +1,6 @@
 #include "MathOperationDataModel.hpp"
 #include "DecimalData.hpp"
-#include "QtNodes/NodeDelegateModel"
+#include <QtNodes/NodeDelegateModel>
 
 unsigned int MathOperationDataModel::nPorts(PortType portType) const
 {
