@@ -19,11 +19,10 @@ set(CALC_HEADER_FILES
 add_executable(calculator
   ${CALC_SOURCE_FILES}
   ${CALC_HEADER_FILES}
+  CMakeLists.txt
 )
 
 target_link_libraries(calculator QtNodes)
-
-
 
 set(HEADLESS_CALC_SOURCE_FILES
   headless_main.cpp
@@ -35,6 +34,7 @@ set(HEADLESS_CALC_SOURCE_FILES
 add_executable(headless_calculator 
   ${HEADLESS_CALC_SOURCE_FILES}
   ${CALC_HEADER_FILES}
+  CMakeLists.txt
 )
 
 target_link_libraries(headless_calculator QtNodes)

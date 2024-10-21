@@ -120,16 +120,7 @@ QRectF ConnectionGraphicsObject::boundingRect() const
 
 QPainterPath ConnectionGraphicsObject::shape() const
 {
-#ifdef DEBUG_DRAWING
-
-    //QPainterPath path;
-
-    //path.addRect(boundingRect());
-    //return path;
-
-#else
     return nodeScene()->connectionPainter().getPainterStroke(*this);
-#endif
 }
 
 QPointF const &ConnectionGraphicsObject::endPoint(PortType portType) const
