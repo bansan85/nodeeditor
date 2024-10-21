@@ -31,8 +31,8 @@ variables:
   - cp $destination "$VCPKG_LOCAL_GIT/vcpkg" || exit 1
 
 .after-script-clean-vcpkg-windows: &after-script-clean-vcpkg-windows
-  - Remove-Item -LiteralPath "$Env:VCPKG_BUILDTREE" -Force -Recurse
-  - Remove-Item -LiteralPath "$Env:VCPKG_LOCAL_GIT/packages" -Force -Recurse
+  - (Remove-Item -LiteralPath "$Env:VCPKG_BUILDTREE" -Force -Recurse -ErrorAction SilentlyContinue) || ($LASTEXITCODE=0)
+  - (Remove-Item -LiteralPath "$Env:VCPKG_LOCAL_GIT/packages" -Force -Recurse -ErrorAction SilentlyContinue) || ($LASTEXITCODE=0)
 
 .after-script-clean-vcpkg-linux: &after-script-clean-vcpkg-linux
   - rm -Rf "$VCPKG_LOCAL_GIT/buildtrees"
