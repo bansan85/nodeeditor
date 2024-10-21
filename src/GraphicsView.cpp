@@ -161,6 +161,44 @@ void GraphicsView::centerScene()
     }
 }
 
+bool GraphicsView::handleMouseEvent(QMouseEvent *event)
+{
+    QPoint pos = event->pos();
+
+    QWidget *child = childAt(pos);
+    std::cout << (size_t)child << std::endl << std::flush;
+
+    if (event->type() == QEvent::MouseButtonPress) {
+        m_mouseDownWidget = child;
+    } else if (event->type() == QEvent::MouseButtonRelease) {
+        m_mouseDownWidget = nullptr;
+    }
+
+    QWidget *receiver = m_mouseDownWidget ? m_mouseDownWidget : child;
+
+    if (receiver != nullptr) {
+        QPoint newPt = receiver->mapFrom(this, pos);
+
+        if (event->button() == Qt::MouseButton::RightButton) {
+            contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Mouse,
+                                                   newPt,
+                                                   event->globalPosition().toPoint()));
+        }
+        QMouseEvent *eventlocal = new QMouseEvent(event->type(),
+                                                  newPt,
+                                                  event->scenePosition(),
+                                                  newPt,
+                                                  event->button(),
+                                                  event->buttons(),
+                                                  event->modifiers(),
+                                                  event->source(),
+                                                  event->pointingDevice());
+        return qApp->notify(receiver, eventlocal);
+    }
+
+    return false;
+}
+
 void GraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
     if (itemAt(event->pos())) {
@@ -214,6 +252,15 @@ void GraphicsView::setScaleRange(double minimum, double maximum)
 void GraphicsView::setScaleRange(ScaleRange range)
 {
     setScaleRange(range.minimum, range.maximum);
+}
+
+bool GraphicsView::handleEvent(QEvent *e)
+{
+    if (QMouseEvent *me = dynamic_cast<QMouseEvent *>(e)) {
+        return handleMouseEvent(me);
+    }
+
+    return QWidget::event(e);
 }
 
 void GraphicsView::scaleUp()
