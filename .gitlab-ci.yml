@@ -36,24 +36,31 @@ format:cmake-format:
 #    - run-clang-tidy || exit 1
 #  dependencies:
 #    - build:ubuntu-static
-#
-#format:iwyu:
-#  stage: format
-#  tags:
-#    - ubuntu
-#  script:
-#    - cd CI
-#    - iwyu_tool.py -p . -j $NUM_PARALLEL -- -Xiwyu --no_default_mappings -Xiwyu --mapping_file="$(pwd)/../.iwyu-imp" -Xiwyu --no_fwd_decls > iwyu_tool.log
-#    - fix_includes.py --nosafe_headers < iwyu_tool.log
-#    - if [[ `git status --porcelain` ]]; then exit 1; fi
-#  dependencies:
-#    - build:ubuntu-static
-#  allow_failure: true
-#  artifacts:
-#    when: on_failure
-#    paths:
-#      - CI/iwyu_tool.log
-#    expire_in: 1 day
+
+format:iwyu:
+  stage: format
+  tags:
+    - ubuntu
+    - iwyu
+  script:
+    - cd CI
+    - perl -0777 -i.original -pe 's/,\n\{\n.*\n.*moc.*\.cpp",\n.*moc.*\.cpp"\n\}//g' compile_commands.json
+    - perl -0777 -i.original -pe 's/\{\n.*\n.*moc.*\.cpp",\n.*moc.*\.cpp"\n\},\n//g' compile_commands.json
+    - perl -0777 -i.original -pe 's/,\n\{\n.*\n.*qmlcache.*\.cpp",\n.*qmlcache.*\.cpp"\n\}//g' compile_commands.json
+    - perl -0777 -i.original -pe 's/\{\n.*\n.*qmlcache.*\.cpp",\n.*qmlcache.*\.cpp"\n\},\n//g' compile_commands.json
+    - perl -0777 -i.original -pe 's/,\n\{\n.*\n.*qmltyperegistrations.*\.cpp",\n.*qmltyperegistrations.*\.cpp"\n\}//g' compile_commands.json
+    - perl -0777 -i.original -pe 's/\{\n.*\n.*qmltyperegistrations.*\.cpp",\n.*qmltyperegistrations.*\.cpp"\n\},\n//g' compile_commands.json
+    - iwyu_tool.py -p . -j $NUM_PARALLEL -- -Xiwyu --mapping_file="$(pwd)/../.iwyu-imp" -Xiwyu --mapping_file="$(pwd)/../.stl.c.headers.imp" -Xiwyu --no_fwd_decls > iwyu_tool.log
+    - fix_includes.py --nosafe_headers < iwyu_tool.log
+    - if [[ `git status --porcelain` ]]; then exit 1; fi
+  dependencies:
+    - build:ubuntu-static
+  allow_failure: true
+  artifacts:
+    when: on_failure
+    paths:
+      - CI/iwyu_tool.log
+    expire_in: 1 day
 
 #build:windows-python:
 #  stage: build
