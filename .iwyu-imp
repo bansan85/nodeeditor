@@ -127,6 +127,7 @@
   {"symbol": ["QQuickItem::ItemHasContents", "private", "<QQuickItem>", "public"]},
   {"symbol": ["QQuickItem", "private", "<QQuickItem>", "public"]},
   {"symbol": ["QQuickPaintedItem", "private", "<QQuickPaintedItem>", "public"]},
+  {"symbol": ["QQuickWidget", "private", "<QQuickWidget>", "public"]},
   {"symbol": ["QRadioButton", "private", "<QRadioButton>", "public"]},
   {"symbol": ["QRect", "private", "<QRect>", "public"]},
   {"symbol": ["QRectF", "private", "<QRectF>", "public"]},
