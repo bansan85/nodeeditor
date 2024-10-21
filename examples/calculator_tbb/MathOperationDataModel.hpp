@@ -53,6 +53,7 @@ public:
 
         if (!data) {
             Q_EMIT this->dataInvalidated(0);
+            return;
         }
 
         if (portIndex == 0) {
