@@ -1,12 +1,11 @@
 #pragma once
 
-#include <QPushButton>
-#include <QWidget>
-
-#include <QtNodes/Definitions>
-
+#include <utility>
 #include <QHBoxLayout>
+#include <QObject>
 #include <QVBoxLayout>
+#include <QWidget>
+#include <QtNodes/Definitions>
 
 using QtNodes::NodeId;
 using QtNodes::PortIndex;

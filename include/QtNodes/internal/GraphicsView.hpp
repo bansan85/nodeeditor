@@ -1,8 +1,20 @@
 #pragma once
 
-#include <QtWidgets/QGraphicsView>
-
 #include "Export.hpp"
+#include <QAction>
+#include <QContextMenuEvent>
+#include <QEvent>
+#include <QGraphicsView>
+#include <QKeyEvent>
+#include <QMouseEvent>
+#include <QObject>
+#include <QPainter>
+#include <QPointF>
+#include <QRectF>
+#include <QShowEvent>
+#include <QWheelEvent>
+#include <QWidget>
+#include <QtGlobal>
 
 namespace QtNodes {
 

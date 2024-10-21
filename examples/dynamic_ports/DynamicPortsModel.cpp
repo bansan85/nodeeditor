@@ -1,12 +1,16 @@
 #include "DynamicPortsModel.hpp"
-
 #include "PortAddRemoveWidget.hpp"
-
-#include <QtNodes/ConnectionIdUtils>
-
-#include <QJsonArray>
-
+#include "QtNodes/AbstractGraphModel"
+#include "QtNodes/StyleCollection"
+#include <algorithm>
 #include <iterator>
+#include <unordered_set>
+#include <QDir>
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QJsonValueRef>
+#include <QtGlobal>
+#include <QtNodes/ConnectionIdUtils>
 
 DynamicPortsModel::DynamicPortsModel()
     : _nextNodeId{0}

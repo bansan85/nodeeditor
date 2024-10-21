@@ -1,18 +1,17 @@
 #pragma once
 
-#include <memory>
-
-#include <QtWidgets/QWidget>
-
 #include "Definitions.hpp"
 #include "Export.hpp"
 #include "NodeData.hpp"
 #include "NodeStyle.hpp"
 #include "Serializable.hpp"
+#include <memory>
+#include <QJsonObject>
+#include <QObject>
+#include <QString>
+#include <QWidget>
 
 namespace QtNodes {
-
-class StyleCollection;
 
 /**
  * The class wraps Node-specific data operations and propagates it to

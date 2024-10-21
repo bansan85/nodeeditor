@@ -1,6 +1,7 @@
 #include "AbstractGraphModel.hpp"
-
-#include <QtNodes/ConnectionIdUtils>
+#include "ConnectionIdUtils.hpp"
+#include <algorithm>
+#include <unordered_set>
 
 namespace QtNodes {
 

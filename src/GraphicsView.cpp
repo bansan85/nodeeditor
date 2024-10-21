@@ -1,27 +1,26 @@
 #include "GraphicsView.hpp"
-
 #include "BasicGraphicsScene.hpp"
-#include "ConnectionGraphicsObject.hpp"
-#include "NodeGraphicsObject.hpp"
+#include "GraphicsViewStyle.hpp"
 #include "StyleCollection.hpp"
 #include "UndoCommands.hpp"
-
-#include <QtWidgets/QGraphicsScene>
-
-#include <QtGui/QBrush>
-#include <QtGui/QPen>
-
-#include <QtWidgets/QMenu>
-
-#include <QtCore/QDebug>
-#include <QtCore/QPointF>
-#include <QtCore/QRectF>
-
-#include <QtOpenGL>
-#include <QtWidgets>
-
+#include <algorithm>
 #include <cmath>
-#include <iostream>
+#include <utility>
+#include <QApplication>
+#include <QBrush>
+#include <QCursor>
+#include <QFlags>
+#include <QGraphicsScene>
+#include <QKeySequence>
+#include <QLineF>
+#include <QMenu>
+#include <QPen>
+#include <QPoint>
+#include <QRect>
+#include <QStringLiteral>
+#include <QTransform>
+#include <QUndoStack>
+#include <Qt>
 
 using QtNodes::BasicGraphicsScene;
 using QtNodes::GraphicsView;

@@ -11,16 +11,16 @@
 #include "NodeGraphicsObject.hpp"
 #include "StyleCollection.hpp"
 #include "locateNode.hpp"
-
-#include <QtWidgets/QGraphicsBlurEffect>
-#include <QtWidgets/QGraphicsDropShadowEffect>
-#include <QtWidgets/QGraphicsSceneMouseEvent>
-#include <QtWidgets/QGraphicsView>
-#include <QtWidgets/QStyleOptionGraphicsItem>
-
-#include <QtCore/QDebug>
-
+#include <cmath>
 #include <stdexcept>
+#include <QGraphicsBlurEffect>
+#include <QGraphicsItem>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QPoint>
+#include <QTransform>
+#include <Qt>
+#include <QtGlobal>
 
 namespace QtNodes {
 

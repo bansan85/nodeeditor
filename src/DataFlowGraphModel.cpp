@@ -1,9 +1,22 @@
 #include "DataFlowGraphModel.hpp"
 #include "ConnectionIdHash.hpp"
-
-#include <QJsonArray>
-
+#include "ConnectionIdUtils.hpp"
+#include "NodeData.hpp"
+#include "NodeStyle.hpp"
+#include "StyleCollection.hpp"
+#include <algorithm>
+#include <iterator>
 #include <stdexcept>
+#include <string>
+#include <unordered_set>
+#include <QByteArray>
+#include <QDir>
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QJsonValueRef>
+#include <QWidget>
+#include <QtDebug>
+#include <QtGlobal>
 
 namespace QtNodes {
 

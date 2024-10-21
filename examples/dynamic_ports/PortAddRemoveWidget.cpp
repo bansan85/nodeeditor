@@ -1,6 +1,12 @@
 #include "PortAddRemoveWidget.hpp"
-
 #include "DynamicPortsModel.hpp"
+#include "QtNodes/Definitions"
+#include <tuple>
+#include <QLayout>
+#include <QLayoutItem>
+#include <QPushButton>
+#include <QSizePolicy>
+#include <QWidgetItem>
 
 PortAddRemoveWidget::PortAddRemoveWidget(unsigned int nInPorts,
                                          unsigned int nOutPorts,

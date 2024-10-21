@@ -1,4 +1,13 @@
 #include "SimpleGraphModel.hpp"
+#include "QtNodes/AbstractGraphModel"
+#include "QtNodes/ConnectionIdUtils"
+#include "QtNodes/StyleCollection"
+#include <algorithm>
+#include <iterator>
+#include <QDir>
+#include <QJsonValue>
+#include <QJsonValueRef>
+#include <QtGlobal>
 
 SimpleGraphModel::SimpleGraphModel()
     : _nextNodeId{0}
