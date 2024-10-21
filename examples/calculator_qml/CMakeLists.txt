@@ -27,11 +27,12 @@ qt_add_executable(calculator_qml ${CALC_SOURCE_FILES} ${CALC_HEADER_FILES}
                   ${QT_RESOURCES})
 
 qt_add_qml_module(
-  calculator_qml VERSION 1.0 URI hello QML_FILES main.qml # FramedImage.qml RESOURCES
+  calculator_qml VERSION 1.0 URI hello QML_FILES main.qml Source.qml Display.qml RESOURCES
                                                # img/world.png
 )
 
-target_link_libraries(calculator_qml PRIVATE Qt6::Gui Qt6::Quick QtNodes)
+target_link_libraries(calculator_qml PRIVATE Qt6::Gui Qt6::Quick
+                                             Qt6::QuickWidgets QtNodes)
 
 if(WIN32)
   add_custom_command(

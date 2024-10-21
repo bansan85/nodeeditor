@@ -3,6 +3,7 @@
 #include "DecimalData.hpp"
 #include <memory>
 #include <QObject>
+#include <QQuickWidget>
 #include <QString>
 #include <QStringLiteral>
 #include <QWidget>
@@ -14,8 +15,6 @@ using QtNodes::NodeDelegateModel;
 using QtNodes::PortIndex;
 using QtNodes::PortType;
 
-class QLabel;
-
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
 class NumberDisplayDataModel : public NodeDelegateModel
@@ -23,8 +22,6 @@ class NumberDisplayDataModel : public NodeDelegateModel
     Q_OBJECT
 
 public:
-    NumberDisplayDataModel();
-
     ~NumberDisplayDataModel() = default;
 
 public:
@@ -50,5 +47,6 @@ public:
 private:
     std::shared_ptr<DecimalData> _numberData;
 
-    QLabel *_label;
+    QQuickWidget *_qwid = nullptr;
+    QObject *_label = nullptr;
 };

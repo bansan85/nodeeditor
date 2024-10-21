@@ -1,22 +1,20 @@
 #pragma once
 
+#include "DecimalData.hpp"
 #include <memory>
 #include <QJsonObject>
 #include <QObject>
+#include <QQuickWidget>
 #include <QString>
 #include <QStringLiteral>
 #include <QWidget>
 #include <QtNodes/NodeDelegateModel>
-
-class DecimalData;
 
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;
 using QtNodes::NodeDelegateModel;
 using QtNodes::PortIndex;
 using QtNodes::PortType;
-
-class QLineEdit;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
@@ -25,8 +23,6 @@ class NumberSourceDataModel : public NodeDelegateModel
     Q_OBJECT
 
 public:
-    NumberSourceDataModel();
-
     virtual ~NumberSourceDataModel() {}
 
 public:
@@ -60,7 +56,8 @@ private Q_SLOTS:
     void onTextEdited(QString const &string);
 
 private:
-    std::shared_ptr<DecimalData> _number;
+    std::shared_ptr<DecimalData> _number = std::make_shared<DecimalData>(0.0);
 
-    QLineEdit *_lineEdit;
+    QQuickWidget *_qwid = nullptr;
+    QObject *_lineEdit = nullptr;
 };

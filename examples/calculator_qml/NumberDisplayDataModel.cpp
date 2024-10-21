@@ -1,10 +1,9 @@
 #include "NumberDisplayDataModel.hpp"
-#include <QLabel>
+#include <QQuickItem>
+#include <QQuickWidget>
+#include <QUrl>
+#include <QVariant>
 #include <QtNodes/NodeDelegateModel>
-
-NumberDisplayDataModel::NumberDisplayDataModel()
-    : _label{nullptr}
-{}
 
 unsigned int NumberDisplayDataModel::nPorts(PortType portType) const
 {
@@ -44,22 +43,23 @@ void NumberDisplayDataModel::setInData(std::shared_ptr<NodeData> data, PortIndex
         return;
 
     if (_numberData) {
-        _label->setText(_numberData->numberAsText());
+        _label->setProperty("text", _numberData->numberAsText());
     } else {
-        _label->clear();
+        _label->setProperty("text", "");
     }
-
-    _label->adjustSize();
 }
 
 QWidget *NumberDisplayDataModel::embeddedWidget()
 {
     if (!_label) {
-        _label = new QLabel();
-        _label->setMargin(3);
+        _qwid = new QQuickWidget(nullptr);
+        _qwid->setSource(QUrl("qrc:/hello/Display.qml"));
+        _qwid->setFixedWidth(70);
+        _qwid->setFixedHeight(20);
+        _label = _qwid->rootObject()->findChild<QObject *>("label");
     }
 
-    return _label;
+    return _qwid;
 }
 
 double NumberDisplayDataModel::number() const
