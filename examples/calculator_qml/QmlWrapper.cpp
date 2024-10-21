@@ -3,8 +3,8 @@
 #include <QtNodes/NodeDelegateModelRegistry>
 
 #include <QPainter>
-#include <QTimer>
 #include <QPushButton>
+#include <QTimer>
 #include <QtNodes/ConnectionStyle>
 #include <QtNodes/DataFlowGraphModel>
 #include <QtNodes/DataFlowGraphicsScene>
@@ -91,9 +91,7 @@ bool WidgetView::event(QEvent *event)
     if (ok) {
         std::cout << "update\n" << std::flush;
         update();
-    }
-    else
-    {
+    } else {
         std::cout << "update fails\n" << std::flush;
     }
 
@@ -208,4 +206,3 @@ void WidgetView::setWidget()
 
     m_widget->centerScene();
 }
-

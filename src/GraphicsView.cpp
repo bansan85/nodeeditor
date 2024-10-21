@@ -166,7 +166,6 @@ bool GraphicsView::handleMouseEvent(QMouseEvent *event)
     QPoint pos = event->pos();
 
     QWidget *child = childAt(pos);
-    std::cout << (size_t)child << std::endl << std::flush;
 
     if (event->type() == QEvent::MouseButtonPress) {
         m_mouseDownWidget = child;

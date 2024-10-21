@@ -5,12 +5,12 @@
 #include <QtNodes/NodeData>
 #include <QtNodes/NodeDelegateModelRegistry>
 
+#include <QPushButton>
 #include <QQmlApplicationEngine>
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QVBoxLayout>
-#include <QPushButton>
 
 #include "QmlWrapper.hpp"
 using QtNodes::ConnectionStyle;

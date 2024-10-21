@@ -1,14 +1,14 @@
 #pragma once
 
+#include <QPushButton>
 #include <QQuickPaintedItem>
 #include <QVariant>
 #include <QWidget>
-#include <QPushButton>
-#include <QtNodes/GraphicsView>
 #include <QtNodes/DataFlowGraphicsScene>
-using QtNodes::GraphicsView;
+#include <QtNodes/GraphicsView>
 using QtNodes::DataFlowGraphicsScene;
 using QtNodes::DataFlowGraphModel;
+using QtNodes::GraphicsView;
 
 class QuickPaintedView : public QQuickPaintedItem
 {
