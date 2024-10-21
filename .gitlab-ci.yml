@@ -14,7 +14,7 @@ format:clang-format:
     - ubuntu
     - clang-format
   script:
-    - find . -path ./examples/calculator_tbb/vcpkg -prune -type f -or -name "*.cpp" -or -name "*.cc" -or -name "*.hpp" -or -name "*.h" |xargs clang-format-14 --style=file --dry-run --Werror
+    - find . -type f -name "*.cpp" -or -name "*.cc" -or -name "*.hpp" -or -name "*.h" |xargs clang-format-17 --style=file --dry-run --Werror
   dependencies: []
 
 format:cmake-format:
@@ -23,7 +23,7 @@ format:cmake-format:
     - ubuntu
     - cmake-format
   script:
-    - find . -path ./examples/calculator_tbb/vcpkg -prune -type f -o -name "CMakeLists.txt" | xargs cmake-format -i
+    - find . -name "CMakeLists.txt" | xargs cmake-format -i
     - if [ -n "$(git diff-index --name-only HEAD --)" ]; then echo "Please, format your CMake files."; echo "$(git diff-index --name-only HEAD --)"; exit 1; fi
   dependencies: []
 
