@@ -30,6 +30,7 @@ void MathOperationDataModel::setInData(std::shared_ptr<NodeData> data, PortIndex
 
     if (!data) {
         Q_EMIT dataInvalidated(0);
+        return;
     }
 
     if (portIndex == 0) {
