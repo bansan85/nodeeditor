@@ -16,3 +16,6 @@ add_subdirectory(dynamic_ports)
 
 add_subdirectory(lock_nodes_and_connections)
 
+if(Qt${QT_VERSION_MAJOR}Quick_FOUND)
+  add_subdirectory(calculator_qml)
+endif()
